@@ -5,6 +5,7 @@ import com.example.ecoit2.entity.Intern;
 import com.example.ecoit2.entity.InternWorkSchedule;
 import com.example.ecoit2.repository.InternRepo;
 import com.example.ecoit2.repository.InternWSRepo;
+import com.example.ecoit2.repository.specs.InternWSSpecification;
 import com.example.ecoit2.service.InternWSService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 public class InternWSServiceImpl implements InternWSService {
@@ -70,5 +72,14 @@ public class InternWSServiceImpl implements InternWSService {
     @Override
     public void deleteInternWS(Integer id) {
         internWSRepo.deleteById(id);
+    }
+
+    @Override
+    public Page<InternWorkSchedule> searchAndFilter(Integer internId, Integer availableHoursPerWeek, Date startDate, Date endDate, LocalDateTime createdAt, Integer createdBy, LocalDateTime updatedAt, Integer updatedBy, Pageable pageable) {
+        return internWSRepo.findAll(
+                InternWSSpecification.filterInternWS(
+                        internId, availableHoursPerWeek, startDate, endDate,
+                        createdAt, createdBy, updatedAt, updatedBy),
+                pageable);
     }
 }

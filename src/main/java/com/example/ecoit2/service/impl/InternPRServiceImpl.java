@@ -5,6 +5,7 @@ import com.example.ecoit2.entity.Intern;
 import com.example.ecoit2.entity.InternPerformanceReview;
 import com.example.ecoit2.repository.InternPRRepo;
 import com.example.ecoit2.repository.InternRepo;
+import com.example.ecoit2.repository.specs.InternPRSpecification;
 import com.example.ecoit2.service.InternPRService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 public class InternPRServiceImpl implements InternPRService {
@@ -73,5 +75,14 @@ public class InternPRServiceImpl implements InternPRService {
     @Override
     public void deleleInternPR(Integer id) {
         internPRRepo.deleteById(id);
+    }
+
+    @Override
+    public Page<InternPerformanceReview> searchAndFilter(Integer internId, Integer performanceScore, Date reviewDate, Integer reviewerId, String comments, LocalDateTime createdAt, Integer createdBy, LocalDateTime updatedAt, Integer updatedBy, Pageable pageable) {
+        return internPRRepo.findAll(
+                InternPRSpecification.filterInternPR(
+                        internId, performanceScore, reviewDate, reviewerId, comments,
+                        createdAt, createdBy, updatedAt, updatedBy),
+                pageable);
     }
 }

@@ -2,6 +2,7 @@ package com.example.ecoit2.service.impl;
 
 import com.example.ecoit2.entity.Intern;
 import com.example.ecoit2.repository.InternRepo;
+import com.example.ecoit2.repository.specs.InternSpecification;
 import com.example.ecoit2.service.InternService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 public class InternServiceImpl implements InternService {
@@ -64,5 +66,24 @@ public class InternServiceImpl implements InternService {
     public Intern findInternById(Integer id) {
         return internRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Thực tập sinh với ID " + id + " không tìm thấy"));
+    }
+
+    @Override
+    public Page<Intern> searchAndFilter(
+            String name,
+            Date dateOfBirth,
+            Integer gender,
+            Date startDate,
+            Date nextReviewDate,
+            LocalDateTime createdAt,
+            Integer createdBy,
+            LocalDateTime updatedAt,
+            Integer updatedBy,
+            Pageable pageable) {
+        return internRepo.findAll(
+                InternSpecification.filterInterns(
+                        name, dateOfBirth, gender, startDate, nextReviewDate,
+                        createdAt, createdBy, updatedAt, updatedBy),
+                pageable);
     }
 }
