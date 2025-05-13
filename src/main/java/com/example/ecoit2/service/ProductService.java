@@ -5,6 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Service
 public interface ProductService {
 
@@ -14,4 +17,16 @@ public interface ProductService {
     Product updateProduct(Integer id, Product product);
     void deleteProduct(Integer id);
     Product findInternById(Integer id);
+
+    Page<Product> searchAndFilter(
+            String productName,
+            String productType,
+            String description,
+            Date startDate,
+            String status,
+            LocalDateTime createdAt,
+            Integer createdBy,
+            LocalDateTime updatedAt,
+            Integer updatedBy,
+            Pageable pageable);
 }

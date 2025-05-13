@@ -33,11 +33,31 @@ public class InternWSSpecification {
             }
 
             if (startDate != null) {
-                predicates.add(criteriaBuilder.equal(root.get("startDate"), startDate));
+                predicates.add(criteriaBuilder.equal(
+                        criteriaBuilder.function(
+                                "DATE",
+                                Date.class,
+                                criteriaBuilder.function(
+                                        "timezone",
+                                        Date.class,
+                                        criteriaBuilder.literal("UTC"),
+                                        root.get("startDate")
+                                )
+                        ), startDate));
             }
 
             if (endDate != null) {
-                predicates.add(criteriaBuilder.equal(root.get("endDate"), endDate));
+                predicates.add(criteriaBuilder.equal(
+                        criteriaBuilder.function(
+                                "DATE",
+                                Date.class,
+                                criteriaBuilder.function(
+                                        "timezone",
+                                        Date.class,
+                                        criteriaBuilder.literal("UTC"),
+                                        root.get("endDate")
+                                )
+                        ), endDate));
             }
 
             if (createdAt != null) {

@@ -34,15 +34,25 @@ public class InternPRSpecification {
             }
 
             if (reviewDate != null) {
-                predicates.add(criteriaBuilder.equal(root.get("reviewDate"), reviewDate));
+                predicates.add(criteriaBuilder.equal(
+                        criteriaBuilder.function(
+                                "DATE",
+                                Date.class,
+                                criteriaBuilder.function(
+                                        "timezone",
+                                        Date.class,
+                                        criteriaBuilder.literal("UTC"),
+                                        root.get("reviewDate")
+                                )
+                        ), reviewDate));
             }
 
             if (reviewerId != null) {
                 predicates.add(criteriaBuilder.equal(root.get("reviewerId"), reviewerId));
             }
 
-            if (comments != null) {
-                predicates.add(criteriaBuilder.equal(root.get("comments"), comments));
+            if (comments != null && !comments.isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("comments"), "%" + comments + "%"));
             }
 
             if (createdAt != null) {

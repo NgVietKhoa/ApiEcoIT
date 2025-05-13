@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,10 +55,10 @@ public class InternController {
     @GetMapping("/search")
     public ResponseEntity<Page<Intern>> searchAndFilter(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Date dateOfBirth,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateOfBirth,
             @RequestParam(required = false) Integer gender,
-            @RequestParam(required = false) Date startDate,
-            @RequestParam(required = false) Date nextReviewDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date nextReviewDate,
             @RequestParam(required = false) LocalDateTime createdAt,
             @RequestParam(required = false) Integer createdBy,
             @RequestParam(required = false) LocalDateTime updatedAt,

@@ -2,6 +2,7 @@ package com.example.ecoit2.service.impl;
 
 import com.example.ecoit2.entity.Product;
 import com.example.ecoit2.repository.ProductRepo;
+import com.example.ecoit2.repository.specs.ProductSpecification;
 import com.example.ecoit2.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -64,5 +66,14 @@ public class ProductServiceImpl implements ProductService {
     public Product findInternById(Integer id) {
         return productRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sản phẩm với ID " + id + " không tìm thấy"));
+    }
+
+    @Override
+    public Page<Product> searchAndFilter(String productName, String productType, String description, Date startDate, String status, LocalDateTime createdAt, Integer createdBy, LocalDateTime updatedAt, Integer updatedBy, Pageable pageable) {
+        return productRepo.findAll(
+                ProductSpecification.filterProducts(
+                        productName, productType, description, startDate, status,
+                        createdAt, createdBy, updatedAt, updatedBy),
+                pageable);
     }
 }

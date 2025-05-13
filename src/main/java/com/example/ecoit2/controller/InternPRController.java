@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,7 +59,7 @@ public class InternPRController {
     public ResponseEntity<Page<InternPerformanceReview>> searchAndFilter(
             @RequestParam(required = false) Integer internId,
             @RequestParam(required = false) Integer performanceScore,
-            @RequestParam(required = false) Date reviewDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date reviewDate,
             @RequestParam(required = false) Integer reviewerId,
             @RequestParam(required = false) String comments,
             @RequestParam(required = false) LocalDateTime createdAt,

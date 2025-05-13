@@ -31,7 +31,19 @@ public class InternSpecification {
 
             // Lọc theo dateOfBirth
             if (dateOfBirth != null) {
-                predicates.add(criteriaBuilder.equal(root.get("dateOfBirth"), dateOfBirth));
+                predicates.add(criteriaBuilder.equal(
+                        criteriaBuilder.function(
+                                "DATE",
+                                Date.class,
+                                criteriaBuilder.function(
+                                        "timezone",
+                                        Date.class,
+                                        criteriaBuilder.literal("UTC"),
+                                        root.get("dateOfBirth")
+                                )
+                        ),
+                        dateOfBirth
+                ));
             }
 
             // Lọc theo gender
@@ -41,12 +53,34 @@ public class InternSpecification {
 
             // Lọc theo startDate
             if (startDate != null) {
-                predicates.add(criteriaBuilder.equal(root.get("startDate"), startDate));
+                predicates.add(criteriaBuilder.equal(
+                        criteriaBuilder.function(
+                                "DATE",
+                                Date.class,
+                                criteriaBuilder.function(
+                                        "timezone",
+                                        Date.class,
+                                        criteriaBuilder.literal("UTC"),
+                                        root.get("startDate")
+                                )
+                        ),
+                        startDate));
             }
 
             // Lọc theo nextReviewDate
             if (nextReviewDate != null) {
-                predicates.add(criteriaBuilder.equal(root.get("nextReviewDate"), nextReviewDate));
+                predicates.add(criteriaBuilder.equal(
+                        criteriaBuilder.function(
+                                "DATE",
+                                Date.class,
+                                criteriaBuilder.function(
+                                        "timezone",
+                                        Date.class,
+                                        criteriaBuilder.literal("UTC"),
+                                        root.get("nextReviewDate")
+                                )
+                        ),
+                        nextReviewDate));
             }
 
             // Lọc theo createdAt

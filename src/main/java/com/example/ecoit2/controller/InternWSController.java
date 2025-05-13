@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,8 +58,8 @@ public class InternWSController {
     public ResponseEntity<Page<InternWorkSchedule>> searchAndFilter(
             @RequestParam(required = false) Integer internId,
             @RequestParam(required = false) Integer availableHoursPerWeek,
-            @RequestParam(required = false) Date startDate,
-            @RequestParam(required = false) Date endDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
             @RequestParam(required = false) LocalDateTime createdAt,
             @RequestParam(required = false) Integer createdBy,
             @RequestParam(required = false) LocalDateTime updatedAt,
