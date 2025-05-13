@@ -42,7 +42,7 @@ public class AuthController {
                 .build();
 
         userRepository.save(user);
-        return ResponseEntity.ok("register successfully");
+        return ResponseEntity.ok(new RegisterResponse("register successfully"));
     }
 
     @PostMapping("/login")
@@ -83,3 +83,4 @@ record RegisterRequest(String username, String email, String password) {}
 record LoginRequest(String username, String password) {}
 record LogoutRequest(String username) {}
 record AuthResponse(String token, String message) {}
+record RegisterResponse(String message) {}
